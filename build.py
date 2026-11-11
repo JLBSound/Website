@@ -27,11 +27,12 @@ POSTERS = [
     ("magellan", "Magellan", "Film"),
     ("botched-homes", "Botched Homes", "Series"),
     ("relative-race", "Relative Race", "Series"),
+    ("making-good", "Making Good", "Series"),
+    ("artful", "Artful", "Series"),
     ("dwight-in-shining-armor", "Dwight in Shining Armor", "Series"),
     ("donkey-king", "Donkey King", "Series"),
     ("nitro-circus-the-movie", "Nitro Circus: The Movie", "Film"),
     ("granite-flats", "Granite Flats", "Series"),
-    ("audio-files", "Audio-Files", "Series"),
     ("american-ride", "American Ride", "Series"),
     ("the-story-trek", "The Story Trek", "Series"),
     ("show-offs", "Show Offs", "Series"),
@@ -51,7 +52,7 @@ def poster_card(slug, title, kind, hidden):
     if (ROOT / "static/assets/posters" / f"{slug}.jpg").exists():
         alt = "" if hidden else f"{name} poster"
         return (f'<li class="poster"{extra}><img src="/assets/posters/{slug}.jpg" '
-                f'alt="{alt}" width="400" height="600" loading="lazy"></li>')
+                f'alt="{alt}" width="500" height="750" loading="lazy"></li>')
     return f'<li class="poster card"{extra}><strong>{name}</strong><span>{kind}</span></li>'
 
 
