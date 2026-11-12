@@ -19,9 +19,9 @@
     });
   }
 
-  // Quote form. To send without opening an email app, put a form service URL
-  // (Formspree, Web3Forms, etc.) in data-endpoint in src/_form.html.
-  // Until then it opens a pre-filled email to Joe.
+  // Quote form. Sends through Web3Forms (data-endpoint and the access_key field
+  // in src/_form.html) to joe@jlbsound.com. With no endpoint set, it falls back
+  // to opening a pre-filled email to Joe.
   var form = document.querySelector('[data-quote]');
   if (form) {
     var status = form.querySelector('.status');
@@ -44,6 +44,9 @@
         say('Your email app should open with your details filled in. Press send and it goes straight to Joe.');
         return;
       }
+      data.delete('website');
+      data.set('subject', 'Quote request: ' + (data.get('project') || 'new project'));
+      data.set('from_name', 'JLB Studios website');
       say('Sending...');
       fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
         .then(function (r) {

@@ -1,3 +1,4 @@
 site/
 .claude/
 .DS_Store
+static/assets/reel/*.mp4

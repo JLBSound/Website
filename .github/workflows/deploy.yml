@@ -1,26 +1,28 @@
-name: Publish website
+name: Publish website to Bluehost
 on:
   push:
     branches: [main]
   workflow_dispatch:
-permissions:
-  contents: read
-  pages: write
-  id-token: write
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: publish
+  cancel-in-progress: false
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - run: python3 build.py
-      - uses: actions/upload-pages-artifact@v3
+      - name: Build the site
+        run: python3 build.py
+      - name: Upload to Bluehost
+        # Uploads only new or changed files into the FTP account's folder
+        # (public_html). Files that didn't come from this repo, such as the
+        # reel video, the Weebly backup and heroeslikeyou, are never deleted.
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
-          path: site
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./site/
+          server-dir: ./
